@@ -5,6 +5,7 @@ const {
     login,
     logout
 } = require('../controller/authController');
+const { peopleAuth } = require("../middleware/authMiddleware");
 
 // 1. signup API
 router.post('/signup', signup);
@@ -13,6 +14,6 @@ router.post('/signup', signup);
 router.post('/login', login);
 
 // 3. logout API
-router.post('/logout', logout);
+router.post('/logout', peopleAuth, logout);
 
 module.exports = router;

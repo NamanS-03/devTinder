@@ -2,6 +2,7 @@ const { signupValidation } = require("../utils/validation");
 const People = require('../models/people');
 const bcrypt = require("bcrypt");
 
+//-----------------------------------------SIGNUP CONTROLLER-------------------------------------------//
 const signup = async (req, res) => {
     try {
         // validating the signup data 
@@ -44,6 +45,7 @@ const signup = async (req, res) => {
     }
 }
 
+//----------------------------------------LOGIN CONTROLLER--------------------------------------------//
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -74,13 +76,22 @@ const login = async (req, res) => {
     }
 }
 
+//----------------------------------------LOGOUT CONTROLLER-------------------------------------------//
 const logout = async (req, res) => {
-    res.cookie("token", null, {
-        expires: new Date(Date.now())
-    })
-    res.status(200).json({
-        message: "Logout Successfully"
-    })
+    try {
+        const loggedInUser = req.user;
+        res.cookie("token", null, {
+            expires: new Date(Date.now())
+        })
+
+        res.status(200).json({
+            message: loggedInUser.firstName + " Logged Out Successfully. "
+        })
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        })
+    }
 }
 
 module.exports = {
