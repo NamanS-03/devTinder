@@ -1,5 +1,6 @@
 const validator = require("validator");
 
+// necessary validation for signing up the user
 const signupValidation = (req) => {
     const {
         firstName, 
@@ -17,6 +18,24 @@ const signupValidation = (req) => {
     }
 }
 
+// necessary validations when updating the details of the user
+const editDetailsValidation = (req) => {
+    const ALLOWED_FIELDS_FOR_UPDATE = [
+        "bio",
+        "age",
+        "gender",
+        "profilePicUrl",
+        "skills",
+        "firstName",
+        "lastName"
+    ]
+
+    const isUpdateAllowed = Object.keys(req.body).every((field) => ALLOWED_FIELDS_FOR_UPDATE.includes(field));
+
+    return isUpdateAllowed;
+}
+
 module.exports = {
-    signupValidation
+    signupValidation,
+    editDetailsValidation
 }
