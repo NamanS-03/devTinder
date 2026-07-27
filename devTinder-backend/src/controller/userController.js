@@ -71,7 +71,48 @@ const acceptedConnectionRequest = async (req, res) => {
     }
 }
 
+const feed = async (req, res) => {
+    try {
+        const loggedInUser = req.user;
+        // for pagination
+        const page = parseInt(req.query.page || 1);
+        let limit = parseInt(req.query.limit || 10);
+        limit = limit > 50 ? 50 : limit;
+        limit = limit <= 0 ? 10 : limit;
+        const skip = (page - 1) * limit;
+
+        // finding the existing connection request 
+        const existingConnections = await ConnectionRequest.find({
+            $or: [
+                { fromUserId: loggedInUser._id },
+                { toUserId: loggedInUser._id }
+            ]
+        }).select("fromUserId toUserId");
+
+        const excludedConnections = new Set();
+        excludedConnections.add(loggedInUser._id.toString());
+        existingConnections.forEach((connection) => {
+            excludedConnections.add(connection.fromUserId.toString());
+            excludedConnections.add(connection.toUserId.toString());
+        })
+
+        const loggedInUserFeed = await People.find({
+            _id: { $nin: Array.from(excludedConnections) }
+        }).select("firstName about email").skip(skip).limit(limit);
+
+        res.status(200).json({
+            loggedInUserFeed
+        })
+
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
 module.exports = {
     pendingConnectionRequest,
-    acceptedConnectionRequest
+    acceptedConnectionRequest,
+    feed
 }
