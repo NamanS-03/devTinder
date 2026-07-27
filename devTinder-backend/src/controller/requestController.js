@@ -1,6 +1,7 @@
 const ConnectionRequest = require('../models/connectionRequest');
 const People = require('../models/people');
 
+// controller for sending the connection request to other users
 const sendConnectionRequest = async (req, res) => {
     try {
         // extracting details from the body and URL
@@ -56,6 +57,43 @@ const sendConnectionRequest = async (req, res) => {
     }
 }
 
+// controller to acknowledge the connection requests received from other users
+const acknowledgeConnectionRequest = async (req, res) => {
+    try {
+        const loggedInUser = req.user;
+        const { status, requestId } = req.params;
+
+        const ALLOWED_STATUS = ["accepted", "rejected"];
+        if(!ALLOWED_STATUS.includes(status)) {
+            throw new Error("Invalid Status Type");
+        }
+
+        const connectionRequestInstance = await ConnectionRequest.findOne({
+            _id: requestId,
+            toUserId: loggedInUser._id,
+            status: "interested"
+        });
+        if(!connectionRequestInstance) {
+            return res.status(400).json({
+                message: "Connection Request Not Found"
+            })
+        }
+
+        connectionRequestInstance.status = status;
+        const data = await connectionRequestInstance.save();
+
+        res.status(200).json({
+            message: "Connection Request " + status,
+            data
+        })
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        })
+    }
+}
+
 module.exports = {
-    sendConnectionRequest
+    sendConnectionRequest,
+    acknowledgeConnectionRequest
 }
