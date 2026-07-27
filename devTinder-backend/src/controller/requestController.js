@@ -37,7 +37,7 @@ const sendConnectionRequest = async (req, res) => {
         }
 
         // checking whether connection request in not being to ourself only -- for this we have pre middleware
-        // creating the instance of ConnectionRequest for saving the CR's data
+        // creating the instance of ConnectionRequest for saving the CR's data -- using create method 
         const connectionRequestInstance = await ConnectionRequest.create({
             fromUserId,
             toUserId,
