@@ -74,7 +74,7 @@ peopleSchema.methods.validatePassword = async function (passwordInputByUser) {
 
 peopleSchema.methods.getJWT = async function () {
     const user = this;
-    const token = await jwt.sign({ _id: user._id}, "DEV@devTinder123");
+    const token = await jwt.sign({ _id: user._id}, process.env.JWT_SECRET);
     return token;
 }
 
