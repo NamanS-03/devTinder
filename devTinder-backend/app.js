@@ -6,6 +6,7 @@ const profileRouter = require('./src/routes/profileRoutes');
 const requestRouter = require('./src/routes/requestRoutes');
 const userRouter = require('./src/routes/userRoutes');
 const cookieParser = require("cookie-parser");
+require("dotenv").config({ quiet: true });
 
 app.set('json spaces', 2);
 app.use(express.json());
@@ -18,7 +19,7 @@ app.use('/user', userRouter);
 connectDB()
     .then(() => {
         console.log("Connected to devTinder DB Succesfully");
-        app.listen(2003, () => {
+        app.listen(process.env.PORT, () => {
             console.log("Server Running Successfully on Port 2003");
         })
     })
