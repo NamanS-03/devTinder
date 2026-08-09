@@ -1,0 +1,73 @@
+<svg width="500" height="440" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg" style="background:#f0f4ff; border-radius:12px;">
+
+  <!-- Background connection lines -->
+  <g stroke="#b0bce8" stroke-width="0.6" opacity="0.5">
+    <line x1="200" y1="170" x2="55" y2="55"/><line x1="200" y1="170" x2="120" y2="30"/>
+    <line x1="200" y1="170" x2="200" y2="18"/><line x1="200" y1="170" x2="278" y2="28"/>
+    <line x1="200" y1="170" x2="345" y2="60"/><line x1="200" y1="170" x2="370" y2="140"/>
+    <line x1="200" y1="170" x2="355" y2="240"/><line x1="200" y1="170" x2="290" y2="300"/>
+    <line x1="200" y1="170" x2="200" y2="318"/><line x1="200" y1="170" x2="110" y2="305"/>
+    <line x1="200" y1="170" x2="45" y2="248"/><line x1="200" y1="170" x2="28" y2="165"/>
+    <line x1="200" y1="170" x2="80" y2="110"/><line x1="200" y1="170" x2="135" y2="75"/>
+    <line x1="200" y1="170" x2="270" y2="82"/><line x1="200" y1="170" x2="320" y2="115"/>
+    <line x1="200" y1="170" x2="318" y2="208"/><line x1="200" y1="170" x2="258" y2="270"/>
+    <line x1="200" y1="170" x2="140" y2="265"/><line x1="200" y1="170" x2="84" y2="215"/>
+    <!-- outer ring -->
+    <line x1="55" y1="55" x2="120" y2="30"/><line x1="120" y1="30" x2="200" y2="18"/>
+    <line x1="200" y1="18" x2="278" y2="28"/><line x1="278" y1="28" x2="345" y2="60"/>
+    <line x1="345" y1="60" x2="370" y2="140"/><line x1="370" y1="140" x2="355" y2="240"/>
+    <line x1="355" y1="240" x2="290" y2="300"/><line x1="290" y1="300" x2="200" y2="318"/>
+    <line x1="200" y1="318" x2="110" y2="305"/><line x1="110" y1="305" x2="45" y2="248"/>
+    <line x1="45" y1="248" x2="28" y2="165"/><line x1="28" y1="165" x2="55" y2="55"/>
+    <!-- mid ring -->
+    <line x1="80" y1="110" x2="135" y2="75"/><line x1="135" y1="75" x2="270" y2="82"/>
+    <line x1="270" y1="82" x2="320" y2="115"/><line x1="320" y1="115" x2="318" y2="208"/>
+    <line x1="318" y1="208" x2="258" y2="270"/><line x1="258" y1="270" x2="140" y2="265"/>
+    <line x1="140" y1="265" x2="84" y2="215"/><line x1="84" y1="215" x2="80" y2="110"/>
+    <!-- cross links -->
+    <line x1="55" y1="55" x2="80" y2="110"/><line x1="120" y1="30" x2="135" y2="75"/>
+    <line x1="278" y1="28" x2="270" y2="82"/><line x1="345" y1="60" x2="320" y2="115"/>
+    <line x1="370" y1="140" x2="318" y2="208"/><line x1="355" y1="240" x2="258" y2="270"/>
+    <line x1="110" y1="305" x2="140" y2="265"/><line x1="45" y1="248" x2="84" y2="215"/>
+    <line x1="28" y1="165" x2="84" y2="215"/>
+  </g>
+
+  <!-- Accent lines -->
+  <g stroke="#e94560" stroke-width="1" opacity="0.45">
+    <line x1="200" y1="170" x2="135" y2="75"/>
+    <line x1="200" y1="170" x2="270" y2="82"/>
+    <line x1="200" y1="170" x2="258" y2="270"/>
+    <line x1="200" y1="170" x2="140" y2="265"/>
+  </g>
+
+  <!-- Outer ring nodes -->
+  <g transform="translate(55,55)"><circle r="13" fill="#ffd0d8" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#e94560"/><path d="M-6,9 Q0,5 6,9" stroke="#e94560" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(120,30)"><circle r="13" fill="#c5caf5" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#8892d8"/><path d="M-6,9 Q0,5 6,9" stroke="#8892d8" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(200,18)"><circle r="13" fill="#c8ecd6" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#4caf50"/><path d="M-6,9 Q0,5 6,9" stroke="#4caf50" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(278,28)"><circle r="13" fill="#ffe0b2" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#ff9800"/><path d="M-6,9 Q0,5 6,9" stroke="#ff9800" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(345,60)"><circle r="13" fill="#bbdefb" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#2196f3"/><path d="M-6,9 Q0,5 6,9" stroke="#2196f3" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(370,140)"><circle r="13" fill="#e1d5f5" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#9c27b0"/><path d="M-6,9 Q0,5 6,9" stroke="#9c27b0" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(355,240)"><circle r="13" fill="#ffd0d8" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#e94560"/><path d="M-6,9 Q0,5 6,9" stroke="#e94560" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(290,300)"><circle r="13" fill="#c8ecd6" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#4caf50"/><path d="M-6,9 Q0,5 6,9" stroke="#4caf50" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(200,318)"><circle r="13" fill="#bbdefb" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#2196f3"/><path d="M-6,9 Q0,5 6,9" stroke="#2196f3" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(110,305)"><circle r="13" fill="#ffe0b2" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#ff9800"/><path d="M-6,9 Q0,5 6,9" stroke="#ff9800" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(45,248)"><circle r="13" fill="#e1d5f5" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#9c27b0"/><path d="M-6,9 Q0,5 6,9" stroke="#9c27b0" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(28,165)"><circle r="13" fill="#c5caf5" stroke="white" stroke-width="1.5"/><circle cy="-4" r="4.5" fill="#8892d8"/><path d="M-6,9 Q0,5 6,9" stroke="#8892d8" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>
+
+  <!-- Mid ring nodes -->
+  <g transform="translate(80,110)"><circle r="12" fill="#c8ecd6" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#4caf50"/><path d="M-5,8 Q0,4 5,8" stroke="#4caf50" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(135,75)"><circle r="12" fill="#ffd0d8" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#e94560"/><path d="M-5,8 Q0,4 5,8" stroke="#e94560" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(270,82)"><circle r="12" fill="#c5caf5" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#8892d8"/><path d="M-5,8 Q0,4 5,8" stroke="#8892d8" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(320,115)"><circle r="12" fill="#ffe0b2" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#ff9800"/><path d="M-5,8 Q0,4 5,8" stroke="#ff9800" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(318,208)"><circle r="12" fill="#bbdefb" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#2196f3"/><path d="M-5,8 Q0,4 5,8" stroke="#2196f3" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(258,270)"><circle r="12" fill="#ffd0d8" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#e94560"/><path d="M-5,8 Q0,4 5,8" stroke="#e94560" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(140,265)"><circle r="12" fill="#e1d5f5" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#9c27b0"/><path d="M-5,8 Q0,4 5,8" stroke="#9c27b0" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+  <g transform="translate(84,215)"><circle r="12" fill="#c8ecd6" stroke="white" stroke-width="1.5"/><circle cy="-3" r="4" fill="#4caf50"/><path d="M-5,8 Q0,4 5,8" stroke="#4caf50" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>
+
+  <!-- Center node -->
+  <circle cx="200" cy="170" r="36" fill="#e94560" opacity="0.12"/>
+  <circle cx="200" cy="170" r="28" fill="#e94560" stroke="white" stroke-width="2.5"/>
+  <circle cx="200" cy="161" r="10" fill="white"/>
+  <path d="M183,184 Q200,176 217,184" stroke="white" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+
+</svg>
