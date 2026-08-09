@@ -1,4 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: cupcake --default;
+}
+
+body {
+  font-family: "Fira Sans", sans-serif;
 }
