@@ -24,7 +24,7 @@ const Login = () => {
             className="input input-bordered w-full rounded-md"
           />
           <div className="text-right mt-1">
-            <a className="link link-hover text-sm text-primary">
+            <a className="link link-hover text-sm text-blue-600">
               Forgot password?
             </a>
           </div>
@@ -32,7 +32,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="btn w-full rounded-md !bg-[#1a2a5e] !text-white border-none"
+          className="btn btn-app-primary w-full"
         >
           Login
         </button>

@@ -36,7 +36,7 @@ const Signup = () => {
 
         <button
           type="submit"
-          className="btn w-full rounded-md !bg-[#1a2a5e] !text-white border-none"
+          className="btn btn-app-primary w-full"
         >
           Sign Up
         </button>

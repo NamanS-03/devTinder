@@ -65,7 +65,7 @@ const LandingPage = () => {
             <>
               Don&apos;t have an account?{" "}
               <button
-                className="link text-primary font-medium"
+                className="link text-blue-600 font-medium"
                 onClick={() => setActiveTab("signup")}
               >
                 Sign up
@@ -75,7 +75,7 @@ const LandingPage = () => {
             <>
               Already have an account?{" "}
               <button
-                className="link text-primary font-medium"
+                className="link text-blue-600 font-medium"
                 onClick={() => setActiveTab("login")}
               >
                 Login

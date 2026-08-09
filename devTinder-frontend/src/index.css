@@ -7,3 +7,15 @@
 body {
   font-family: "Fira Sans", sans-serif;
 }
+
+.btn-app-primary {
+  background-color: #1a2a5e;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+}
+
+.btn-app-primary:hover {
+  background-color: #1a2a5e;
+  opacity: 0.7;
+}
