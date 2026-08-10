@@ -4,13 +4,28 @@ import logoImage from "../assets/devtinder-logo-final.svg";
 const Navbar = () => {
   return (
     <div className="navbar bg-base-100 shadow-sm px-4 sm:px-8">
-      <div className="flex-1">
+      <div className="navbar-start">
         <Link to="/home" className="flex items-center text-2xl font-bold gap-3">
           <img src={logoImage} alt="DevTinder logo" className="h-10 w-10" />
           DevTinder
         </Link>
       </div>
-      <div className="flex flex-none items-center gap-4">
+
+      <div className="navbar-center">
+        <ul className="menu menu-horizontal px-1 gap-1">
+          <li>
+            <Link to="/connections">Connections</Link>
+          </li>
+          <li>
+            <Link to="/requests">Requests</Link>
+          </li>
+          <li>
+            <Link to="/messages">Messages</Link>
+          </li>
+        </ul>
+      </div>
+
+      <div className="navbar-end flex items-center gap-4">
         <button className="btn btn-square btn-ghost">
           <div className="indicator">
             <svg
