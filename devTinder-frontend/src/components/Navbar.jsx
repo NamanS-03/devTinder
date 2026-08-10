@@ -1,7 +1,21 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import logoImage from "../assets/devtinder-logo-final.svg";
+import ConfirmModal from "./ConfirmModal";
+import { logoutUser } from "../store/authSlice";
 
 const Navbar = () => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleConfirmLogout = async () => {
+    setIsLogoutModalOpen(false);
+    await dispatch(logoutUser());
+    navigate("/");
+  };
+
   return (
     <div className="navbar bg-base-100 shadow-sm px-4 sm:px-8">
       <div className="navbar-start">
@@ -62,18 +76,24 @@ const Navbar = () => {
             <li>
               <a className="justify-between">
                 Profile
-                <span className="badge">New</span>
               </a>
             </li>
             <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
+              <a onClick={() => setIsLogoutModalOpen(true)}>Logout</a>
             </li>
           </ul>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={isLogoutModalOpen}
+        title="Log out?"
+        message="Are you sure you want to log out?"
+        confirmLabel="Yes"
+        cancelLabel="No"
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setIsLogoutModalOpen(false)}
+      />
     </div>
   );
 };
