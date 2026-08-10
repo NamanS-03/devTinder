@@ -1,24 +1,19 @@
 import { useState } from "react";
-import api from "../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { loginLoading, loginError } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const res = await api.post("/login", { email, password });
+    const result = await dispatch(loginUser({ email, password }));
+    if (loginUser.fulfilled.match(result)) {
       // TODO: once a logged-in area exists, navigate there.
-      console.log(res.data.message);
-    } catch (err) {
-      setError(err?.response?.data?.message || "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+      console.log(result.payload?.message);
     }
   };
 
@@ -59,14 +54,14 @@ const Login = () => {
           </div>
         </div>
 
-        {error && <p className="text-sm text-error">{error}</p>}
+        {loginError && <p className="text-sm text-error">{loginError}</p>}
 
         <button
           type="submit"
           className="btn btn-app-primary w-full"
-          disabled={loading}
+          disabled={loginLoading}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loginLoading ? "Logging in..." : "Login"}
         </button>
       </form>
 

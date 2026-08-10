@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import networkImage from "../../assets/devtinder-network-final.svg";
 import logoImage from "../../assets/devtinder-logo-final.svg";
 import Login from "./Login";
 import Signup from "./Signup";
+import { setActiveTab } from "../../store/uiSlice";
 
 const LandingPage = () => {
-  const [activeTab, setActiveTab] = useState("login");
+  const activeTab = useSelector((state) => state.ui.activeTab);
+  const dispatch = useDispatch();
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
@@ -43,14 +45,14 @@ const LandingPage = () => {
           <a
             role="tab"
             className={`tab flex-1 ${activeTab === "login" ? "tab-active !bg-[#1a2a5e] !text-white" : ""}`}
-            onClick={() => setActiveTab("login")}
+            onClick={() => dispatch(setActiveTab("login"))}
           >
             Login
           </a>
           <a
             role="tab"
             className={`tab flex-1 ${activeTab === "signup" ? "tab-active !bg-[#1a2a5e] !text-white" : ""}`}
-            onClick={() => setActiveTab("signup")}
+            onClick={() => dispatch(setActiveTab("signup"))}
           >
             Sign Up
           </a>
@@ -66,7 +68,7 @@ const LandingPage = () => {
               Don&apos;t have an account?{" "}
               <button
                 className="link text-blue-600 font-medium"
-                onClick={() => setActiveTab("signup")}
+                onClick={() => dispatch(setActiveTab("signup"))}
               >
                 Sign up
               </button>
@@ -76,7 +78,7 @@ const LandingPage = () => {
               Already have an account?{" "}
               <button
                 className="link text-blue-600 font-medium"
-                onClick={() => setActiveTab("login")}
+                onClick={() => dispatch(setActiveTab("login"))}
               >
                 Login
               </button>

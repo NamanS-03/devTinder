@@ -1,33 +1,20 @@
 import { useState } from "react";
-import api from "../../utils/api";
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser } from "../../store/authSlice";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { signupLoading, signupError, signupSuccess } = useSelector(
+    (state) => state.auth
+  );
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-    setLoading(true);
-    try {
-      const res = await api.post("/signup", {
-        firstName,
-        lastName,
-        email,
-        password,
-      });
-      setSuccess(res.data.message);
-    } catch (err) {
-      setError(err?.response?.data?.message || "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    dispatch(signupUser({ firstName, lastName, email, password }));
   };
 
   return (
@@ -88,15 +75,15 @@ const Signup = () => {
           />
         </div>
 
-        {error && <p className="text-sm text-error">{error}</p>}
-        {success && <p className="text-sm text-success">{success}</p>}
+        {signupError && <p className="text-sm text-error">{signupError}</p>}
+        {signupSuccess && <p className="text-sm text-success">{signupSuccess}</p>}
 
         <button
           type="submit"
           className="btn btn-app-primary w-full"
-          disabled={loading}
+          disabled={signupLoading}
         >
-          {loading ? "Signing up..." : "Sign Up"}
+          {signupLoading ? "Signing up..." : "Sign Up"}
         </button>
       </form>
 
