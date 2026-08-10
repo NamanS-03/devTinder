@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../store/authSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loginLoading, loginError } = useSelector((state) => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(loginUser({ email, password }));
     if (loginUser.fulfilled.match(result)) {
-      // TODO: once a logged-in area exists, navigate there.
-      console.log(result.payload?.message);
+      navigate("/home");
     }
   };
 
