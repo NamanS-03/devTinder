@@ -1,0 +1,9 @@
+<svg width="200" height="200" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="80" rx="16" fill="#1a1a2e"/>
+  <!-- < bracket -->
+  <path d="M18,28 L10,40 L18,52" stroke="#e94560" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- > bracket -->
+  <path d="M62,28 L70,40 L62,52" stroke="#e94560" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- heart in center -->
+  <path d="M31,36 C31,31 35,29 40,33 C45,29 49,31 49,36 C49,41 40,48 40,48 C40,48 31,41 31,36 Z" fill="#e94560"/>
+</svg>

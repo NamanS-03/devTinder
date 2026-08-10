@@ -1,10 +1,7 @@
-function App() {
+import LandingPage from "./components/landingPage/landingPage";
 
-  return (
-    <>
-      <h1 className="text-3xl font-bold">Hello World !</h1>
-    </>
-  )
+function App() {
+  return <LandingPage />;
 }
 
-export default App
+export default App;
