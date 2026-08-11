@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import logoImage from "../assets/devtinder-logo-final.svg";
-import ConfirmModal from "./ConfirmModal";
-import { logoutUser } from "../store/authSlice";
+import logoImage from "../../assets/devtinder-logo-final.svg";
+import ConfirmModal from "../Accounts/ConfirmModal";
+import { logoutUser } from "../../store/authSlice";
 
 const Navbar = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);

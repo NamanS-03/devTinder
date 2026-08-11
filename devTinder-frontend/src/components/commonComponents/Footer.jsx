@@ -1,4 +1,4 @@
-import logoImage from "../assets/devtinder-logo-final.svg";
+import logoImage from "../../assets/devtinder-logo-final.svg";
 
 const Footer = () => {
   return (
