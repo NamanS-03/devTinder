@@ -98,7 +98,7 @@ const feed = async (req, res) => {
 
         const loggedInUserFeed = await People.find({
             _id: { $nin: Array.from(excludedConnections) }
-        }).select("firstName about email").skip(skip).limit(limit);
+        }).select("firstName lastName bio skills profilePicUrl age gender").skip(skip).limit(limit);
 
         res.status(200).json({
             loggedInUserFeed

@@ -10,12 +10,16 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+  const profileChecked = useSelector((state) => state.auth.profileChecked);
 
   useEffect(() => {
-    if (!user) {
+    // Only fetch once per session state - avoids repeatedly hitting
+    // /profile/view (and 400ing) on every remount/re-render once we already
+    // know there's no logged-in user, e.g. right after logout.
+    if (!user && !profileChecked) {
       dispatch(fetchUserProfile());
     }
-  }, [user, dispatch]);
+  }, [user, profileChecked, dispatch]);
 
   const initials =
     `${user?.firstName?.charAt(0) || ""}${user?.lastName?.charAt(0) || ""}` ||

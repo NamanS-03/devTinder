@@ -5,8 +5,6 @@ const {
     login,
     logout
 } = require('../controller/authController');
-const { peopleAuth } = require("../middleware/authMiddleware");
-
 // 1. signup API
 router.post('/signup', signup);
 
@@ -14,6 +12,9 @@ router.post('/signup', signup);
 router.post('/login', login);
 
 // 3. logout API
-router.post('/logout', peopleAuth, logout);
+// Not gated behind peopleAuth: logout's job is to clear the cookie, and it
+// must succeed even if the token is missing/expired. The controller still
+// best-effort identifies the user from the token for logging purposes.
+router.post('/logout', logout);
 
 module.exports = router;

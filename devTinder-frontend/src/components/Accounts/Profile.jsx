@@ -114,7 +114,7 @@ const Profile = () => {
 
   // Downscales the image and re-encodes it as JPEG so the resulting
   // base64 string stays well under the request body size limit.
-  const resizeImage = (file, maxDimension = 400, quality = 0.8) =>
+  const resizeImage = (file, maxDimension = 250, quality = 0.6) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onerror = () => reject(new Error("read-failed"));
@@ -152,6 +152,13 @@ const Profile = () => {
     setPicUploadError("");
     try {
       const dataUrl = await resizeImage(file);
+      // Guard against the resulting base64 string still being too large for
+      // the request body limit (e.g. very busy/high-detail source images).
+      const MAX_DATA_URL_LENGTH = 6 * 1024 * 1024; // ~6MB, keeps headroom under the 8mb server limit
+      if (dataUrl.length > MAX_DATA_URL_LENGTH) {
+        setPicUploadError("This image is too large even after compression. Please choose a smaller or simpler image.");
+        return;
+      }
       setFormData((prev) => ({ ...prev, profilePicUrl: dataUrl }));
     } catch {
       setPicUploadError("Failed to read the selected image. Please try again.");

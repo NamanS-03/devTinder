@@ -49,6 +49,10 @@ export const fetchUserProfile = createAsyncThunk(
 
 const initialState = {
   user: null,
+  // Tracks whether we've already attempted a profile fetch (success or
+  // failure) so components don't keep re-requesting /profile/view on every
+  // remount/re-render while there's no session - e.g. right after logout.
+  profileChecked: false,
   loginLoading: false,
   loginError: "",
   signupLoading: false,
@@ -81,6 +85,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loginLoading = false;
         state.user = action.payload?.data || null;
+        state.profileChecked = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loginLoading = false;
@@ -101,17 +106,23 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
+        // We know for certain there's no session now - skip re-fetching
+        // until something (e.g. a new login) says otherwise.
+        state.profileChecked = true;
       })
       .addCase(logoutUser.rejected, (state) => {
         // Even if the request fails, clear local user state so the UI
         // reflects a logged-out session.
         state.user = null;
+        state.profileChecked = true;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
         state.user = action.payload?.data || null;
+        state.profileChecked = true;
       })
       .addCase(fetchUserProfile.rejected, (state) => {
         state.user = null;
+        state.profileChecked = true;
       });
   },
 });

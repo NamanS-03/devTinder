@@ -1,6 +1,7 @@
 const { signupValidation } = require("../utils/validation");
 const People = require('../models/people');
 const bcrypt = require("bcrypt");
+const { getUserFromToken } = require("../middleware/authMiddleware");
 
 //-----------------------------------------SIGNUP CONTROLLER-------------------------------------------//
 const signup = async (req, res) => {
@@ -78,20 +79,25 @@ const login = async (req, res) => {
 
 //----------------------------------------LOGOUT CONTROLLER-------------------------------------------//
 const logout = async (req, res) => {
+    // Best-effort identification of who's logging out, purely for logging.
+    // Reuses the same verify/lookup as peopleAuth, but failure here is
+    // ignorable - an expired/missing/invalid token must never block logout
+    // itself, since clearing the cookie has to always succeed.
+    let loggedInUserName = "User";
     try {
-        const loggedInUser = req.user;
-        res.cookie("token", null, {
-            expires: new Date(Date.now())
-        })
-
-        res.status(200).json({
-            message: loggedInUser.firstName + " Logged Out Successfully. "
-        })
+        const user = await getUserFromToken(req);
+        loggedInUserName = user.firstName;
     } catch (err) {
-        res.status(400).json({
-            message: err.message
-        })
+        console.log("Logout: could not identify user from token - ", err.message);
     }
+
+    res.cookie("token", null, {
+        expires: new Date(Date.now())
+    })
+
+    res.status(200).json({
+        message: loggedInUserName + " Logged Out Successfully. "
+    })
 }
 
 module.exports = {
