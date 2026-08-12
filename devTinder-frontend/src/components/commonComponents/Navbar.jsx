@@ -1,18 +1,38 @@
-import { Link } from "react-router-dom";
-import logoImage from "../assets/devtinder-logo-final.svg";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import logoImage from "../../assets/devtinder-logo-final.svg";
+import ConfirmModal from "../Accounts/ConfirmModal";
+import { logoutUser } from "../../store/authSlice";
 
 const Navbar = () => {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleConfirmLogout = async () => {
+    setIsLogoutModalOpen(false);
+    await dispatch(logoutUser());
+    navigate("/");
+  };
+
   return (
-    <div className="navbar bg-base-100 shadow-sm px-4 sm:px-8">
+    <div
+      className="navbar shadow-sm px-4 sm:px-8"
+      style={{ backgroundColor: "#E9E9FB" }}
+    >
       <div className="navbar-start">
-        <Link to="/home" className="flex items-center text-2xl font-bold gap-3">
+        <Link
+          to="/home"
+          className="flex items-center text-2xl font-bold gap-3 text-[#1a2a5e]"
+        >
           <img src={logoImage} alt="DevTinder logo" className="h-10 w-10" />
           DevTinder
         </Link>
       </div>
 
       <div className="navbar-center">
-        <ul className="menu menu-horizontal px-1 gap-1">
+        <ul className="menu menu-horizontal px-1 gap-6 text-base font-bold [&_a:hover]:!bg-[#cfcff2] [&_a:hover]:text-[#1a2a5e]">
           <li>
             <Link to="/connections">Connections</Link>
           </li>
@@ -60,20 +80,26 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <Link to="/profile" className="justify-between">
                 Profile
-                <span className="badge">New</span>
-              </a>
+              </Link>
             </li>
             <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
+              <a onClick={() => setIsLogoutModalOpen(true)}>Logout</a>
             </li>
           </ul>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={isLogoutModalOpen}
+        title="Log out?"
+        message="Are you sure you want to log out?"
+        confirmLabel="Yes"
+        cancelLabel="No"
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setIsLogoutModalOpen(false)}
+      />
     </div>
   );
 };

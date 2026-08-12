@@ -1,7 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/landingPage/landingPage";
-import Home from "./components/Home";
-import AppLayout from "./components/AppLayout";
+import Home from "./components/homePage/Home";
+import AppLayout from "./components/commonComponents/AppLayout";
+import Connections from "./components/Network/Connections";
+import Requests from "./components/Network/Requests";
+import Messages from "./components/Network/Messages";
+import Profile from "./components/Accounts/Profile";
 
 function App() {
   return (
@@ -10,6 +14,10 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route element={<AppLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/connections" element={<Connections />} />
+          <Route path="/requests" element={<Requests />} />
+          <Route path="/messages" element={<Messages />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

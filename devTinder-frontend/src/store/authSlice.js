@@ -26,6 +26,11 @@ export const signupUser = createAsyncThunk(
     authRequest("/signup", { firstName, lastName, email, password }, thunkAPI)
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  (_, thunkAPI) => authRequest("/logout", {}, thunkAPI)
+);
+
 const initialState = {
   user: null,
   loginLoading: false,
@@ -71,6 +76,14 @@ const authSlice = createSlice({
       .addCase(signupUser.rejected, (state, action) => {
         state.signupLoading = false;
         state.signupError = action.payload;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+      })
+      .addCase(logoutUser.rejected, (state) => {
+        // Even if the request fails, clear local user state so the UI
+        // reflects a logged-out session.
+        state.user = null;
       });
   },
 });
