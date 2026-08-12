@@ -1,14 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logoImage from "../../assets/devtinder-logo-final.svg";
 import ConfirmModal from "../Accounts/ConfirmModal";
-import { logoutUser } from "../../store/authSlice";
+import { logoutUser, fetchUserProfile } from "../../store/authSlice";
 
 const Navbar = () => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUserProfile());
+    }
+  }, [user, dispatch]);
+
+  const initials =
+    `${user?.firstName?.charAt(0) || ""}${user?.lastName?.charAt(0) || ""}` ||
+    "U";
 
   const handleConfirmLogout = async () => {
     setIsLogoutModalOpen(false);
@@ -66,15 +77,26 @@ const Navbar = () => {
         </button>
 
         <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar placeholder"
-          >
-            <div className="bg-neutral text-neutral-content w-10 rounded-full">
-              <span>U</span>
+          {user?.profilePicUrl ? (
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img
+                  src={user.profilePicUrl}
+                  alt={`${user.firstName || ""} ${user.lastName || ""}`.trim() || "Profile"}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar placeholder"
+            >
+              <div className="bg-neutral text-neutral-content w-10 rounded-full">
+                <span>{initials}</span>
+              </div>
+            </div>
+          )}
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
