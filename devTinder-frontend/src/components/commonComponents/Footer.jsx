@@ -2,7 +2,10 @@ import logoImage from "../../assets/devtinder-logo-final.svg";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col sm:flex-row items-center justify-center bg-neutral text-neutral-content px-6 py-8 gap-6 text-lg">
+    <footer
+      className="flex flex-col sm:flex-row items-center justify-center text-[#1a2a5e] px-6 py-8 gap-6 text-lg"
+      style={{ backgroundColor: "#E9E9FB" }}
+    >
       <aside className="flex items-center gap-3">
         <img src={logoImage} alt="DevTinder logo" className="h-8 w-8" />
         <p>Copyright © {new Date().getFullYear()} - All rights reserved</p>

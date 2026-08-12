@@ -5,6 +5,7 @@ import AppLayout from "./components/commonComponents/AppLayout";
 import Connections from "./components/Network/Connections";
 import Requests from "./components/Network/Requests";
 import Messages from "./components/Network/Messages";
+import Profile from "./components/Accounts/Profile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/connections" element={<Connections />} />
           <Route path="/requests" element={<Requests />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

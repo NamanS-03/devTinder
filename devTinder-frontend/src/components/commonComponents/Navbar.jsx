@@ -17,16 +17,22 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-4 sm:px-8">
+    <div
+      className="navbar shadow-sm px-4 sm:px-8"
+      style={{ backgroundColor: "#E9E9FB" }}
+    >
       <div className="navbar-start">
-        <Link to="/home" className="flex items-center text-2xl font-bold gap-3">
+        <Link
+          to="/home"
+          className="flex items-center text-2xl font-bold gap-3 text-[#1a2a5e]"
+        >
           <img src={logoImage} alt="DevTinder logo" className="h-10 w-10" />
           DevTinder
         </Link>
       </div>
 
       <div className="navbar-center">
-        <ul className="menu menu-horizontal px-1 gap-1">
+        <ul className="menu menu-horizontal px-1 gap-6 text-base font-bold [&_a:hover]:!bg-[#cfcff2] [&_a:hover]:text-[#1a2a5e]">
           <li>
             <Link to="/connections">Connections</Link>
           </li>
@@ -74,9 +80,9 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <Link to="/profile" className="justify-between">
                 Profile
-              </a>
+              </Link>
             </li>
             <li>
               <a onClick={() => setIsLogoutModalOpen(true)}>Logout</a>
