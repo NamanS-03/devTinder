@@ -31,6 +31,22 @@ export const logoutUser = createAsyncThunk(
   (_, thunkAPI) => authRequest("/logout", {}, thunkAPI)
 );
 
+// Fetches the logged-in user's profile, used to hydrate the navbar avatar
+// (and other user-dependent UI) on app load / route change.
+export const fetchUserProfile = createAsyncThunk(
+  "auth/fetchProfile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/profile/view");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(
+        err?.response?.data?.message || "Failed to load profile."
+      );
+    }
+  }
+);
+
 const initialState = {
   user: null,
   loginLoading: false,
@@ -48,6 +64,12 @@ const authSlice = createSlice({
       state.loginError = "";
       state.signupError = "";
       state.signupSuccess = "";
+    },
+    // Lets other parts of the app (e.g. the profile edit form) sync the
+    // logged-in user in the store immediately after an update, without
+    // waiting on a refetch.
+    setUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -84,9 +106,15 @@ const authSlice = createSlice({
         // Even if the request fails, clear local user state so the UI
         // reflects a logged-out session.
         state.user = null;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.user = action.payload?.data || null;
+      })
+      .addCase(fetchUserProfile.rejected, (state) => {
+        state.user = null;
       });
   },
 });
 
-export const { clearAuthMessages } = authSlice.actions;
+export const { clearAuthMessages, setUser } = authSlice.actions;
 export default authSlice.reducer;
