@@ -17,6 +17,22 @@ export const fetchReceivedRequests = createAsyncThunk(
   }
 );
 
+// Accepts or rejects a received connection request, used by the Accept/
+// Reject buttons on the requests page.
+export const acknowledgeRequest = createAsyncThunk(
+  "requests/acknowledge",
+  async ({ status, requestId }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/request/receive/${status}/${requestId}`);
+      return { status, requestId, data: res.data };
+    } catch (err) {
+      return rejectWithValue(
+        err?.response?.data?.message || "Failed to update request."
+      );
+    }
+  }
+);
+
 const initialState = {
   requests: [],
   loading: false,
@@ -40,6 +56,11 @@ const requestSlice = createSlice({
       .addCase(fetchReceivedRequests.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(acknowledgeRequest.fulfilled, (state, action) => {
+        state.requests = state.requests.filter(
+          (r) => r._id !== action.payload.requestId
+        );
       });
   },
 });

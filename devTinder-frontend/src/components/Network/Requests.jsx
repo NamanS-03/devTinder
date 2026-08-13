@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReceivedRequests } from "../../store/requestSlice";
+import { fetchReceivedRequests, acknowledgeRequest } from "../../store/requestSlice";
 
 const getInitials = (firstName, lastName) =>
   `${firstName?.[0] || ""}${lastName?.[0] || ""}`.toUpperCase();
@@ -12,6 +12,11 @@ const Requests = () => {
   useEffect(() => {
     dispatch(fetchReceivedRequests());
   }, [dispatch]);
+
+  const handleAccept = (requestId) =>
+    dispatch(acknowledgeRequest({ status: "accepted", requestId }));
+  const handleReject = (requestId) =>
+    dispatch(acknowledgeRequest({ status: "rejected", requestId }));
 
   return (
     <div className="p-8">
@@ -48,10 +53,16 @@ const Requests = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <button className="btn btn-success btn-sm" disabled>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => handleAccept(request._id)}
+                  >
                     Accept
                   </button>
-                  <button className="btn btn-error btn-outline btn-sm" disabled>
+                  <button
+                    className="btn btn-error btn-outline btn-sm"
+                    onClick={() => handleReject(request._id)}
+                  >
                     Reject
                   </button>
                 </div>
