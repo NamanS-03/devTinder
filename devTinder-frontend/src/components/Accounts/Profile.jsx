@@ -1,7 +1,27 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import api from "../../utils/api";
 import { setUser as setUserInStore } from "../../store/authSlice";
+import { fetchMyConnections } from "../../store/connectionSlice";
+import { fetchReceivedRequests } from "../../store/requestSlice";
+
+const PROFILE_FIELDS_FOR_COMPLETION = [
+  "bio",
+  "age",
+  "gender",
+  "profilePicUrl",
+  "skills",
+];
+
+const computeProfileCompletion = (user) => {
+  if (!user) return 0;
+  const filled = PROFILE_FIELDS_FOR_COMPLETION.filter((field) => {
+    const value = user[field];
+    if (Array.isArray(value)) return value.length > 0;
+    return !!value;
+  }).length;
+  return Math.round((filled / PROFILE_FIELDS_FOR_COMPLETION.length) * 100);
+};
 
 const PencilIcon = ({ className = "h-4 w-4" }) => (
   <svg
@@ -30,6 +50,8 @@ const buildFormState = (user) => ({
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const { connections } = useSelector((state) => state.connections);
+  const { requests } = useSelector((state) => state.requests);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -58,6 +80,8 @@ const Profile = () => {
     };
 
     fetchProfile();
+    dispatch(fetchMyConnections());
+    dispatch(fetchReceivedRequests());
   }, [dispatch]);
 
   if (loading) {
@@ -214,121 +238,143 @@ const Profile = () => {
     }
   };
 
+  const profileCompletion = computeProfileCompletion(user);
+
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
-      {/* Header */}
-      <div className="rounded-box bg-gradient-to-b from-white to-[#f4f4fc] p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <div className="relative">
-              {(isEditing ? formData.profilePicUrl : profilePicUrl) ? (
-                <div className="avatar">
-                  <div className="w-24 rounded-full">
-                    <img
-                      src={isEditing ? formData.profilePicUrl : profilePicUrl}
-                      alt={`${firstName} ${lastName}`}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="avatar placeholder">
-                  <div className="w-24 rounded-full bg-[#E9E9FB] text-[#1a2a5e]">
-                    <span className="text-3xl font-medium">{initials}</span>
-                  </div>
-                </div>
-              )}
-              {isEditing && (
-                <label
-                  htmlFor="profilePicInput"
-                  className="absolute bottom-0 right-0 flex items-center justify-center w-8 h-8 rounded-full bg-[#1a2a5e] text-white border-2 border-white cursor-pointer hover:bg-[#12204a]"
-                  title="Change profile picture"
-                >
-                  <PencilIcon className="h-4 w-4" />
-                  <input
-                    id="profilePicInput"
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleProfilePicChange}
-                  />
-                </label>
-              )}
-            </div>
+      {/* Banner + avatar */}
+      <div className="rounded-box overflow-visible">
+        <div className="h-32 sm:h-40 rounded-box bg-gradient-to-r from-[#1a2a5e] via-[#2c3f8c] to-[#4a5cc4]" />
 
-            <div>
-              <h1 className="text-3xl font-bold text-[#1a2a5e]">
-                {firstName} {lastName}
-              </h1>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-base-content/60 text-sm">
-                {gender && <span className="capitalize">{gender}</span>}
-                {age && <span>{age} years old</span>}
-                <span className="flex items-center gap-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+        <div className="px-4 sm:px-8 -mt-14 sm:-mt-16">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+            <div className="flex items-end gap-5">
+              <div className="relative">
+                {(isEditing ? formData.profilePicUrl : profilePicUrl) ? (
+                  <div className="avatar">
+                    <div className="w-28 sm:w-32 rounded-full ring-4 ring-white">
+                      <img
+                        src={isEditing ? formData.profilePicUrl : profilePicUrl}
+                        alt={`${firstName} ${lastName}`}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="avatar placeholder">
+                    <div className="w-28 sm:w-32 rounded-full bg-[#E9E9FB] text-[#1a2a5e] ring-4 ring-white">
+                      <span className="text-3xl font-medium">{initials}</span>
+                    </div>
+                  </div>
+                )}
+                {isEditing && (
+                  <label
+                    htmlFor="profilePicInput"
+                    className="absolute bottom-1 right-1 flex items-center justify-center w-8 h-8 rounded-full bg-[#1a2a5e] text-white border-2 border-white cursor-pointer hover:bg-[#12204a]"
+                    title="Change profile picture"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    <PencilIcon className="h-4 w-4" />
+                    <input
+                      id="profilePicInput"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleProfilePicChange}
                     />
-                  </svg>
-                  {email}
-                </span>
+                  </label>
+                )}
+              </div>
+
+              <div className="pb-1">
+                <h1 className="text-2xl sm:text-3xl font-bold text-[#1a2a5e]">
+                  {firstName} {lastName}
+                </h1>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-base-content/60 text-sm">
+                  {gender && <span className="capitalize">{gender}</span>}
+                  {age && <span>{age} years old</span>}
+                  <span className="flex items-center gap-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
+                    {email}
+                  </span>
+                </div>
               </div>
             </div>
+
+            {!isEditing ? (
+              <button
+                className="btn text-white bg-[#1a2a5e] border-none hover:bg-[#12204a] self-start sm:self-auto"
+                onClick={startEditing}
+              >
+                Edit profile
+              </button>
+            ) : (
+              <div className="flex flex-col items-end gap-2 self-start sm:self-auto">
+                {isDirty && (
+                  <div className="flex gap-2">
+                    <button
+                      className="btn btn-sm text-white bg-[#1a2a5e] border-none hover:bg-[#12204a]"
+                      onClick={handleSave}
+                      disabled={saving}
+                    >
+                      {saving ? (
+                        <span className="loading loading-spinner loading-xs"></span>
+                      ) : (
+                        "Save"
+                      )}
+                    </button>
+                    <button
+                      className="btn btn-sm btn-ghost"
+                      onClick={cancelEditing}
+                      disabled={saving}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                )}
+                {!isDirty && (
+                  <button className="btn btn-sm btn-ghost" onClick={cancelEditing}>
+                    Done editing
+                  </button>
+                )}
+                {saveError && <p className="text-error text-sm">{saveError}</p>}
+              </div>
+            )}
           </div>
 
-          {!isEditing ? (
-            <button
-              className="btn text-white bg-[#1a2a5e] border-none hover:bg-[#12204a] self-start sm:self-auto"
-              onClick={startEditing}
-            >
-              Edit profile
-            </button>
-          ) : (
-            <div className="flex flex-col items-end gap-2 self-start sm:self-auto">
-              {isDirty && (
-                <div className="flex gap-2">
-                  <button
-                    className="btn btn-sm text-white bg-[#1a2a5e] border-none hover:bg-[#12204a]"
-                    onClick={handleSave}
-                    disabled={saving}
-                  >
-                    {saving ? (
-                      <span className="loading loading-spinner loading-xs"></span>
-                    ) : (
-                      "Save"
-                    )}
-                  </button>
-                  <button
-                    className="btn btn-sm btn-ghost"
-                    onClick={cancelEditing}
-                    disabled={saving}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              )}
-              {!isDirty && (
-                <button className="btn btn-sm btn-ghost" onClick={cancelEditing}>
-                  Done editing
-                </button>
-              )}
-              {saveError && <p className="text-error text-sm">{saveError}</p>}
+          {isEditing && picUploadError && (
+            <div className="mt-4">
+              <p className="text-error text-sm">{picUploadError}</p>
             </div>
           )}
-        </div>
 
-        {isEditing && picUploadError && (
-          <div className="mt-4">
-            <p className="text-error text-sm">{picUploadError}</p>
+          {/* Stats row */}
+          <div className="grid grid-cols-3 gap-3 mt-6 max-w-md">
+            <div className="rounded-xl border border-base-200 bg-white px-4 py-3 text-center shadow-sm">
+              <p className="text-xl font-bold text-[#1a2a5e]">{connections.length}</p>
+              <p className="text-xs text-base-content/60 mt-0.5">Connections</p>
+            </div>
+            <div className="rounded-xl border border-base-200 bg-white px-4 py-3 text-center shadow-sm">
+              <p className="text-xl font-bold text-[#1a2a5e]">{requests.length}</p>
+              <p className="text-xs text-base-content/60 mt-0.5">Requests</p>
+            </div>
+            <div className="rounded-xl border border-base-200 bg-white px-4 py-3 text-center shadow-sm">
+              <p className="text-xl font-bold text-[#1a2a5e]">{profileCompletion}%</p>
+              <p className="text-xs text-base-content/60 mt-0.5">Profile</p>
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Content */}
@@ -383,9 +429,13 @@ const Profile = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-base-content/60 mt-2">
-                No skills added yet.
-              </p>
+              <button
+                type="button"
+                className="mt-2 w-full rounded-xl border-2 border-dashed border-[#1a2a5e]/25 py-6 text-sm text-[#1a2a5e]/60 hover:border-[#1a2a5e]/50 hover:text-[#1a2a5e] transition-colors"
+                onClick={startEditing}
+              >
+                + Add skills to showcase what you work with
+              </button>
             )}
           </div>
         </div>
