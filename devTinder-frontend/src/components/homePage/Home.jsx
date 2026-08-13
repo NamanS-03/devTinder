@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFeed } from "../../store/feedSlice";
+import { fetchFeed, sendConnectionRequest } from "../../store/feedSlice";
 
 const MAX_VISIBLE_SKILLS = 5;
 
@@ -25,10 +25,10 @@ const Home = () => {
     setActiveIndex(0);
   }
 
-  // Non-functional for now - logic to send a connection request /
-  // ignore a user will be wired up later.
-  const handleInterested = () => {};
-  const handleIgnored = () => {};
+  const handleInterested = (toUserId) =>
+    dispatch(sendConnectionRequest({ status: "interested", toUserId }));
+  const handleIgnored = (toUserId) =>
+    dispatch(sendConnectionRequest({ status: "ignored", toUserId }));
 
   const goPrev = () =>
     setActiveIndex((idx) => (idx - 1 + users.length) % users.length);
