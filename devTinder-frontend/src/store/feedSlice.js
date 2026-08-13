@@ -17,6 +17,22 @@ export const fetchFeed = createAsyncThunk(
   }
 );
 
+// Sends a connection request (ignored/interested) for a user in the feed
+// and removes them from the feed on success so they don't show up again.
+export const sendConnectionRequest = createAsyncThunk(
+  "feed/sendConnectionRequest",
+  async ({ status, toUserId }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/request/send/${status}/${toUserId}`);
+      return { status, toUserId, data: res.data };
+    } catch (err) {
+      return rejectWithValue(
+        err?.response?.data?.message || "Failed to send request."
+      );
+    }
+  }
+);
+
 const initialState = {
   users: [],
   loading: false,
@@ -40,6 +56,11 @@ const feedSlice = createSlice({
       .addCase(fetchFeed.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      .addCase(sendConnectionRequest.fulfilled, (state, action) => {
+        state.users = state.users.filter(
+          (u) => u._id !== action.payload.toUserId
+        );
       });
   },
 });
