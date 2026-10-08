@@ -17,3 +17,6 @@ router.get('/myConnections', peopleAuth, acceptedConnectionRequest);
 router.get('/feed', peopleAuth, feed)
 
 module.exports = router;
+
+// just checking how this branching strategy will be working moving forward, 
+// that is why it is p0..
