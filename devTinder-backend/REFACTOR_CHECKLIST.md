@@ -56,7 +56,7 @@ flowchart TD
 ---
 
 ## Phase 0: Before you start
-- [ ] Create a branch: `git checkout -b refactor/layers`
+- [x] Create a branch: `git checkout -b refactor/layers`
 - [ ] In Postman, save one request for **every endpoint** (see the regression list at
       the bottom) and run them all once against the current code. This is your
       baseline. Note what each one returns.

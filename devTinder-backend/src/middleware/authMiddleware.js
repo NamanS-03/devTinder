@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const People = require('../models/people');
+const config = require("../config/env");
 
 // Shared token verification: decodes the token cookie off req and looks up
 // the matching user. Throws on any failure (missing/invalid token, unknown
@@ -15,8 +16,7 @@ const getUserFromToken = async (req) => {
     }
 
     // verifying the token against the secret key that we used at the time of signing in the token
-    const decodedMessage = await jwt.verify(token, "DEV@devTinder123");
-    console.log("Decoded message: " , decodedMessage);
+    const decodedMessage = jwt.verify(token, config.jwt.secret);
 
     // extracting the id from after verifying
     const { _id } = decodedMessage;
