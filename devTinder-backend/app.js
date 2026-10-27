@@ -1,3 +1,4 @@
+const config = require("./src/config/env");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -7,11 +8,10 @@ const profileRouter = require('./src/routes/profileRoutes');
 const requestRouter = require('./src/routes/requestRoutes');
 const userRouter = require('./src/routes/userRoutes');
 const cookieParser = require("cookie-parser");
-require("dotenv").config({ quiet: true });
 
 app.set('json spaces', 2);
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: config.corsOrigins,
     credentials: true
 }));
 app.use(express.json({ limit: "8mb" }));
@@ -24,8 +24,8 @@ app.use('/user', userRouter);
 connectDB()
     .then(() => {
         console.log("Connected to devTinder DB Succesfully");
-        app.listen(process.env.PORT, () => {
-            console.log("Server Running Successfully on Port 2003");
+        app.listen(config.port, () => {
+            console.log(`Server Running Successfully on Port ${config.port}`);
         })
     })
     .catch((err) => {
